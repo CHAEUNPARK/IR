@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from konlpy.tag import Twitter
 from collections import Counter
 from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 
 def get_titles(start, end):
     title_list = []
@@ -39,13 +40,17 @@ def make_wordcloud(title_list, word_count):
         for word, tag in sentence1:
             if tag in ['Noun', 'Adjective']:
                 noun_adj_list.append(word)
-    counts = Counter(noun_adj_list)
-    common_word_list = counts.most_common(word_count)
+    # counts = Counter(noun_adj_list)
+    # common_word_list = counts.most_common(word_count)
+    list_tmp = ' '.join(noun_adj_list)
+    font_path = '‪C:/indows/Fonts/NGULIM.TTF'
+    wc = WordCloud(font_path=font_path, background_color='white').generate(list_tmp)
+    plt.imshow(wc, interpolation='bilinear')
+    plt.axis('off')
+    plt.show()
 
-    return common_word_list
 
 
 if __name__=='__main__':
     title_list = get_titles(1, 200)
-
-    noun_adj_list = make_wordcloud(title_list, 30)
+    make_wordcloud(title_list, 30)

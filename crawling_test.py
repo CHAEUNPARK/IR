@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from konlpy.tag import Twitter
-from collections import Counter
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
@@ -23,7 +22,6 @@ def get_titles(start, end):
 
 def make_wordcloud(title_list, word_count):
     twitter = Twitter()
-
     sentences_tag = []
     for sentence in title_list:
         morph = twitter.pos(sentence)
@@ -31,17 +29,12 @@ def make_wordcloud(title_list, word_count):
         print(morph)
         print('-'*30)
 
-    print(sentences_tag)
-    print('\n'*3)
-
     noun_adj_list = []
 
     for sentence1 in sentences_tag:
         for word, tag in sentence1:
             if tag in ['Noun', 'Adjective']:
                 noun_adj_list.append(word)
-    # counts = Counter(noun_adj_list)
-    # common_word_list = counts.most_common(word_count)
     list_tmp = ' '.join(noun_adj_list)
     font_path = '‪C:/indows/Fonts/NGULIM.TTF'
     wc = WordCloud(font_path=font_path, background_color='white').generate(list_tmp)
